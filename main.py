@@ -4,62 +4,58 @@ from caesar import rotate_string
 app = Flask(__name__)
 app.config['DEBUG'] = True
 
-page_header = """
+form = """
 <!DOCTYPE html>
 <html>
     <head>
         <style>
-            form {
+            form {{
                 background-color: #eee;
                 padding: 20px;
                 margin: 0 auto;
                 width: 540px;
                 font: 16px sans-serif;
                 border-radius: 10px;
-            }
-            textarea {
+            }}
+            
+            textarea {{
                 margin: 10px 0;
                 width: 540px;
                 height: 120px;
-            }
+            }}
+            
         </style>
     </head>
     <body>
-"""
-
-form = """ 
+    
         <form action="/rot" method="post">
             <label for="rot"> Rotate by: 
                 <input type="text" id="rot" name="rot" value="0"/>
-                <textarea name="text"></textarea>
-            </label>     
-           
+                <textarea name="text"> {0} </textarea>
+            </label>   
             <input type="submit" value="Submit Query"/>
-        </form>                            
-      
-      
-      """
-
-page_footer = """
+        </form>    
+                                
     </body>
 </html>
 """
 
-
-@app.route("/rot", methods=['POST'])
-def rotations():
-    rotat = request.form['rot']
+@app.route('/rot', methods=['POST'])
+def encrypt():
+    title = "<h1>Web Caesar</h1>"
+    numb_rot = int(request.form['rot'])
     text_box = request.form['text']
-    rot_input = "<br>" +"<strong>" + rotat + "</strong>" + "<br>" + text_box
-    content = page_header + rot_input + page_footer
+    encryption = rotate_string(text_box, numb_rot)
+
+    content = title + form.format(encryption)
     return content
 
-@app.route("/")
+
+@app.route('/', methods=['POST', 'GET'])
 def index():
     title = "<h1>Web Caesar</h1>"
-    content = page_header + title + form + page_footer
+    content = title + form.format("")
     return content
-
 
 
 app.run()
