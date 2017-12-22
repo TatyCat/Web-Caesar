@@ -31,7 +31,7 @@ form = """
         <form action="/rot" method="post">
             <label for="rot"> Rotate by: 
                 <input type="text" id="rot" name="rot" value="0"/>
-                <textarea name="text"> {0} </textarea>
+                <textarea name="text">{0}</textarea>
             </label>   
             <input type="submit" value="Submit Query"/>
         </form>    
@@ -48,6 +48,7 @@ def encrypt():
     encryption = rotate_string(text_box, numb_rot)
 
     content = title + form.format(encryption)
+    print(content)
     return content
 
 
@@ -55,6 +56,7 @@ def encrypt():
 def index():
     title = "<h1>Web Caesar</h1>"
     content = title + form.format("")
+    print(content)
     return content
 
 
